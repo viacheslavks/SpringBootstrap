@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New user</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+
+        label {
+            margin-top: 10px;
+        }
+
+        input[type="text"] {
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <form th:method="POST" th:action="@{/saveUser}" th:object="${user}">
+
+        <label for="name">Enter name: </label>
+        <input type="text" th:field="*{name}" id="name" class="form-control"/>
+
+        <label for="lastName">Enter lastName: </label>
+        <input type="text" th:field="*{lastName}" id="lastName" class="form-control"/>
+
+        <label for="age">Enter age: </label>
+        <input type="text" th:field="*{age}" id="age" class="form-control"/>
+
+        <label for="email">Enter email: </label>
+        <input type="text" th:field="*{email}" id="email" class="form-control"/>
+
+        <input type="submit" value="Save User" class="btn btn-primary"/>
+    </form>
+</div>
+
+</body>
+</html>
