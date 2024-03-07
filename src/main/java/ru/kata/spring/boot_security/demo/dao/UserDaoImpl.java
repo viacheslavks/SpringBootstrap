@@ -53,14 +53,12 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-
     @Override
     public List<User> findAll() {
         String hql = "SELECT u FROM User u";
         Query query = entityManager.createQuery(hql, User.class);
         return query.getResultList();
     }
-
 
     @Override
     public User findByUserName(String userName) {

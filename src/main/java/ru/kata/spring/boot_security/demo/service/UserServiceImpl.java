@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Transactional
     @Override
-    public void saveUser(String userName, String password,  String email){
+    public void saveUser(String userName, String password, String email) {
         userDao.saveUser(userName, password, email);
     }
 
@@ -57,11 +57,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public List<User> findAll() {
         return userDao.findAll();
     }
+
     @Transactional
     @Override
     public User findByUserName(String userName) {
         return userDao.findByUserName(userName);
     }
+
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
