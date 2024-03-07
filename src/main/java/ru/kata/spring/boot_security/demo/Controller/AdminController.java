@@ -5,9 +5,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -25,25 +28,28 @@ public class AdminController {
     }
 
 
-    @GetMapping("/")
+    @GetMapping()
     public String showAllUsers(Model model) {
         model.addAttribute("allUsers", userService.findAll());
-        return "admin";
+        return "adminlist";
 
     }
 
-    @GetMapping("/addForm")
+    @GetMapping(value = "/addForm")
     public String addForm(Model model) {
         User user = new User();
+        List<Role> roles = roleService.getAllRoles();
         model.addAttribute("user", user);
-        return "/new";
+        model.addAttribute("allRoles", roles);
+        return "newuser";
 
     }
 
     @PostMapping(value = "/saveUser")
     public String saveUser(@ModelAttribute("user") User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.save(user);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
     @GetMapping(value = "/editForm")
@@ -56,13 +62,13 @@ public class AdminController {
     @PostMapping("/updateUser")
     public String updateUser(@ModelAttribute("user") User user) {
         userService.update(user);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 //    @ModelAttribute("id") Long id
 
     @GetMapping(value = "/deleteUser")
     public String deleteUser(@RequestParam("userId") Long id) {
         userService.delete(id);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 }

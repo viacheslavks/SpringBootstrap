@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>User Details</title>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="text-center">
+        <h1>User Details</h1>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Email</th>
+            <th>Role</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:object="${user}">
+            <td th:text="${user.getId()}"></td>
+            <td th:text="${user.getUserName()}"></td>
+            <td th:text="${user.getPassword()}"></td>
+            <td th:text="${user.getEmail()}"></td>
+            <td>
+                <span th:each="role: ${user.roles}" th:text="${role.name} + ', '"></span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" th:href="@{/admin}">Back to Users List</a>
+    <br/>
+    <form class="mt-3" th:action="@{/logout}" th:method="post">
+        <button class="btn btn-danger" type="submit">Logout</button>
+    </form>
+</div>
+
+</body>
+</html>

@@ -27,17 +27,15 @@
 <body>
 
 <div class="container">
-    <form th:method="POST" th:action="@{/updateUser}" th:object="${user}">
+    <form th:method="POST" th:action="@{/admin/updateUser}" th:object="${user}">
         <input type="hidden" th:field="*{id}" name="id">
 
-        <label for="name">Enter name: </label>
-        <input type="text" th:field="*{name}" id="name" class="form-control"/>
+        <label for="username">Enter name: </label>
+        <input type="text" th:field="*{userName}" id="username" class="form-control"/>
 
-        <label for="lastName">Enter lastName: </label>
-        <input type="text" th:field="*{lastName}" id="lastName" class="form-control"/>
 
-        <label for="age">Enter age: </label>
-        <input type="text" th:field="*{age}" id="age" class="form-control"/>
+        <label for="password">Enter age: </label>
+        <input type="text" th:field="*{password}" id="password" class="form-control"/>
 
         <label for="email">Enter email: </label>
         <input type="text" th:field="*{email}" id="email" class="form-control"/>

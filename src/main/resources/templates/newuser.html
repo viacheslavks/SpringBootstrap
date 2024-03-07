@@ -27,19 +27,28 @@
 <body>
 
 <div class="container">
-    <form th:method="POST" th:action="@{/saveUser}" th:object="${user}">
+    <form th:method="POST" th:action="@{/admin/saveUser}" th:object="${user}">
 
-        <label for="name">Enter name: </label>
-        <input type="text" th:field="*{name}" id="name" class="form-control"/>
+        <label for="username">Enter name: </label>
+        <input type="text" th:field="*{userName}" id="username" class="form-control"/>
 
-        <label for="lastName">Enter lastName: </label>
-        <input type="text" th:field="*{lastName}" id="lastName" class="form-control"/>
-
-        <label for="age">Enter age: </label>
-        <input type="text" th:field="*{age}" id="age" class="form-control"/>
+        <label for="password">Enter age: </label>
+        <input type="text" th:field="*{password}" id="password" class="form-control"/>
 
         <label for="email">Enter email: </label>
         <input type="text" th:field="*{email}" id="email" class="form-control"/>
+
+        <div class="mb-3">
+            <label>Roles:</label>
+            <div th:each="role : ${allRoles}">
+                <input type="checkbox" th:id="${'role_' + role.getId()}"
+                       th:value="${role.getId()}" th:field="*{roles}"
+                />
+
+                <label th:for="${'role_' + role.getId()}" th:text="${role.getName()}"></label>
+            </div>
+        </div>
+
 
         <input type="submit" value="Save User" class="btn btn-primary"/>
     </form>
