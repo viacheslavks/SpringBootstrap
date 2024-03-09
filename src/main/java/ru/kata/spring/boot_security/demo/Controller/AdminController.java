@@ -11,10 +11,8 @@ import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+
 
 @Controller
 @RequestMapping("/admin")
@@ -63,16 +61,20 @@ public class AdminController {
         model.addAttribute("user", userService.getUserById(id));
         List<Role> roles = (List<Role>) roleService.getAllRoles();
         model.addAttribute("allRoles", roles);
-//        model.addAttribute("id", id);
         return "update";
     }
 
-    @PostMapping("/updateUser")
-    public String updateUser(@ModelAttribute("user") User user) {
+    @PostMapping("/update")
+    public String updateUser(@ModelAttribute("user") User user, @RequestParam("selectedRoles") List<Long> selectResult) {
+        List<Role> roles = new ArrayList<>();
+        for (Long s : selectResult) {
+            roles.add(roleService.getRoleById(s));
+        }
+        user.setRoles(roles);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.update(user);
         return "redirect:/admin";
     }
-//    @ModelAttribute("id") Long id
 
     @GetMapping(value = "/deleteUser")
     public String deleteUser(@RequestParam("userId") Long id) {

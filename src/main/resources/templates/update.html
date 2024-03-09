@@ -27,7 +27,7 @@
 <body>
 
 <div class="container">
-    <form th:method="POST" th:action="@{/admin/updateUser}" th:object="${user}">
+    <form th:method="POST" th:action="@{/admin/update}" th:object="${user}">
         <input type="hidden" th:field="*{id}" name="id">
 
         <label for="username">Enter name: </label>
@@ -39,6 +39,21 @@
 
         <label for="email">Enter email: </label>
         <input type="text" th:field="*{email}" id="email" class="form-control"/>
+
+
+        <div class="mb-3">
+            <div>
+                <label th:for="${#ids.next('roles')}">Roles</label>:
+                <input type="checkbox" id="${#ids.next('roles')}"
+                       th:each="role : ${allRoles}"
+                       th:value="${role.getId()}"
+                       th:text="${role.getName()}"
+                       name="selectedRoles" />
+                <br/>
+            </div>
+        </div>
+
+
 
         <input type="submit" value="Update User" class="btn btn-primary"/>
     </form>
