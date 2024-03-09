@@ -10,7 +10,11 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
@@ -31,22 +35,24 @@ public class AdminController {
     @GetMapping()
     public String showAllUsers(Model model) {
         model.addAttribute("allUsers", userService.findAll());
-        return "adminlist";
+        return "adminList";
 
     }
 
     @GetMapping(value = "/addForm")
-    public String addForm(Model model) {
-        User user = new User();
+    public String addForm(@ModelAttribute("user") User user, Model model) {
         List<Role> roles = roleService.getAllRoles();
-        model.addAttribute("user", user);
         model.addAttribute("allRoles", roles);
-        return "newuser";
-
+        return "addForm";
     }
 
-    @PostMapping(value = "/saveUser")
-    public String saveUser(@ModelAttribute("user") User user) {
+    @PostMapping(value = "/addForm")
+    public String saveUser(@ModelAttribute("user") User user, @RequestParam("selectedRoles") List<Long> selectResult) {
+        List<Role> roles = new ArrayList<>();
+        for (Long s : selectResult) {
+            roles.add(roleService.getRoleById(s));
+        }
+        user.setRoles(roles);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.save(user);
         return "redirect:/admin";
@@ -55,6 +61,8 @@ public class AdminController {
     @GetMapping(value = "/editForm")
     public String editForm(@RequestParam("userId") Long id, Model model) {
         model.addAttribute("user", userService.getUserById(id));
+        List<Role> roles = (List<Role>) roleService.getAllRoles();
+        model.addAttribute("allRoles", roles);
 //        model.addAttribute("id", id);
         return "update";
     }

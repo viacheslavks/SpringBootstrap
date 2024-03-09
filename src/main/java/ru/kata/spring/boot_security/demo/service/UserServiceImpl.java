@@ -27,7 +27,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userDao.saveUser(userName, password, email);
     }
 
-
     @Transactional
     @Override
     public void save(User user) {
