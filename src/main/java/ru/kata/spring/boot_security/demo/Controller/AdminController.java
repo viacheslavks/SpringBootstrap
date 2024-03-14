@@ -32,22 +32,21 @@ public class AdminController {
 
 
     @GetMapping()
-    public String showAllUsers(Model model, @AuthenticationPrincipal User currentUser) {
+    public String showAllUsers(Model model, @AuthenticationPrincipal User currentUser, @ModelAttribute("user") User user) {
+        List<Role> roles = roleService.getAllRoles();
         model.addAttribute("allUsers", userService.findAll());
         model.addAttribute("currentUser", currentUser);
+        model.addAttribute("allRoles", roles);
         return "adminList";
 
-
-
-
     }
-
-    @GetMapping(value = "/addForm")
-    public String addForm(@ModelAttribute("user") User user, Model model) {
-        List<Role> roles = roleService.getAllRoles();
-        model.addAttribute("allRoles", roles);
-        return "addForm";
-    }
+//
+//    @GetMapping(value = "/addForm")
+//    public String addForm(@ModelAttribute("user") User user, Model model) {
+//        List<Role> roles = roleService.getAllRoles();
+//        model.addAttribute("allRoles", roles);
+//        return "addForm";
+//    }
 
     @PostMapping(value = "/addForm")
     public String saveUser(@ModelAttribute("user") User user, @RequestParam("selectedRoles") List<Long> selectResult) {

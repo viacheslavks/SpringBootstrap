@@ -143,4 +143,11 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public String getRoleNames() {
+        return roles.stream()
+                .map(role -> role.getName()
+                        .replace("ROLE_", ""))
+                .collect(Collectors.joining(" "));
+    }
+
 }
