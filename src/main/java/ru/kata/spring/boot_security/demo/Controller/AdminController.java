@@ -61,17 +61,28 @@ public class AdminController {
 //        return "update";
 //    }
 
+//    @PostMapping("/editUser")
+//    public String editUser( @RequestParam("id") Long id, @RequestParam("selectedRoles") List<Long> selectResult, Model model) {
+//        List<Role> roles = new ArrayList<>();
+//        for (Long s : selectResult) {
+//            roles.add(roleService.getRoleById(s));
+//        }
+//        User userEdit = userService.getUserById(id);
+//        model.addAttribute("user", userEdit);
+//        userEdit.setRoles(roles);
+//        userEdit.setPassword(passwordEncoder.encode(userEdit.getPassword()));
+//        userService.update(userEdit);
+//        return "redirect:/admin";
+//    }
     @PostMapping("/editUser")
-    public String editUser(@RequestParam("id") Long id, @RequestParam("selectedRoles") List<Long> selectResult, Model model) {
+    public String editUser( @ModelAttribute("user") User user, @RequestParam("selectedRoles") List<Long> selectResult) {
         List<Role> roles = new ArrayList<>();
         for (Long s : selectResult) {
             roles.add(roleService.getRoleById(s));
         }
-        User userEdit = userService.getUserById(id);
-        model.addAttribute("user", userEdit);
-        userEdit.setRoles(roles);
-        userEdit.setPassword(passwordEncoder.encode(userEdit.getPassword()));
-        userService.update(userEdit);
+        user.setRoles(roles);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userService.update(user);
         return "redirect:/admin";
     }
 
