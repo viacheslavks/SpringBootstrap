@@ -83,6 +83,7 @@
                                 <th>Name</th>
                                 <th>Password</th>
                                 <th>Email</th>
+                                <th>Role</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
@@ -93,6 +94,7 @@
                                 <td th:text="${user.getUserName()}">Username</td>
                                 <td th:text="${user.getPassword()}">Password</td>
                                 <td th:text="${user.getEmail()}">Email</td>
+                                <td th:text="${user.getRoleNames()}">Role</td>
                                 <td>
                                     <button type="button" class="btn btn-info btn" data-bs-toggle="modal"
                                             data-bs-target="#editing"
@@ -326,7 +328,7 @@
                         <td th:text="${currentUser.getPassword()}"></td>
                         <td th:text="${currentUser.getEmail()}"></td>
                         <td>
-                            <span th:each="role: ${currentUser.roles}" th:text="${role.name} + ', '"></span>
+                            <span th:each="role: ${currentUser.roles}" th:text="${currentUser.getRoleNames()} + ', '"></span>
                         </td>
                     </tr>
                     </tbody>
