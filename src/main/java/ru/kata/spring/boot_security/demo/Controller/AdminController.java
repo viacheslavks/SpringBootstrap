@@ -30,7 +30,6 @@ public class AdminController {
         this.passwordEncoder = passwordEncoder;
     }
 
-
     @GetMapping()
     public String showAllUsers(Model model, @AuthenticationPrincipal User currentUser, @ModelAttribute("user") User user) {
         List<Role> roles = roleService.getAllRoles();
@@ -53,29 +52,8 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-//    @GetMapping(value = "/editForm")
-//    public String editForm(@RequestParam("userId") Long id, Model model) {
-//        model.addAttribute("user", userService.getUserById(id));
-//        List<Role> roles = (List<Role>) roleService.getAllRoles();
-//        model.addAttribute("allRoles", roles);
-//        return "update";
-//    }
-
-//    @PostMapping("/editUser")
-//    public String editUser( @RequestParam("id") Long id, @RequestParam("selectedRoles") List<Long> selectResult, Model model) {
-//        List<Role> roles = new ArrayList<>();
-//        for (Long s : selectResult) {
-//            roles.add(roleService.getRoleById(s));
-//        }
-//        User userEdit = userService.getUserById(id);
-//        model.addAttribute("user", userEdit);
-//        userEdit.setRoles(roles);
-//        userEdit.setPassword(passwordEncoder.encode(userEdit.getPassword()));
-//        userService.update(userEdit);
-//        return "redirect:/admin";
-//    }
     @PostMapping("/editUser")
-    public String editUser( @ModelAttribute("user") User user, @RequestParam("selectedRoles") List<Long> selectResult) {
+    public String editUser(@ModelAttribute("user") User user, @RequestParam("selectedRoles") List<Long> selectResult) {
         List<Role> roles = new ArrayList<>();
         for (Long s : selectResult) {
             roles.add(roleService.getRoleById(s));
@@ -86,8 +64,10 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping(value = "/deleteUser")
-    public String deleteUser(@RequestParam("id") Long id) {
+    @PostMapping(value = "/deleteUser")
+    public String deleteUser(@RequestParam("id") Long id, Model model) {
+        User deleteUser = userService.getUserById(id);
+        model.addAttribute("deleteUser", deleteUser);
         userService.delete(id);
         return "redirect:/admin";
     }
