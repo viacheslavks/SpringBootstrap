@@ -30,7 +30,6 @@ public class AdminController {
         this.passwordEncoder = passwordEncoder;
     }
 
-
     @GetMapping()
     public String showAllUsers(Model model, @AuthenticationPrincipal User currentUser, @ModelAttribute("user") User user) {
         List<Role> roles = roleService.getAllRoles();
@@ -40,13 +39,6 @@ public class AdminController {
         return "adminList";
 
     }
-//
-//    @GetMapping(value = "/addForm")
-//    public String addForm(@ModelAttribute("user") User user, Model model) {
-//        List<Role> roles = roleService.getAllRoles();
-//        model.addAttribute("allRoles", roles);
-//        return "addForm";
-//    }
 
     @PostMapping(value = "/addForm")
     public String saveUser(@ModelAttribute("user") User user, @RequestParam("selectedRoles") List<Long> selectResult) {
@@ -60,16 +52,8 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping(value = "/editForm")
-    public String editForm(@RequestParam("userId") Long id, Model model) {
-        model.addAttribute("user", userService.getUserById(id));
-        List<Role> roles = (List<Role>) roleService.getAllRoles();
-        model.addAttribute("allRoles", roles);
-        return "update";
-    }
-
-    @PostMapping("/update")
-    public String updateUser(@ModelAttribute("user") User user, @RequestParam("selectedRoles") List<Long> selectResult) {
+    @PostMapping("/editUser")
+    public String editUser(@ModelAttribute("user") User user, @RequestParam("selectedRoles") List<Long> selectResult) {
         List<Role> roles = new ArrayList<>();
         for (Long s : selectResult) {
             roles.add(roleService.getRoleById(s));
@@ -80,8 +64,10 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping(value = "/deleteUser")
-    public String deleteUser(@RequestParam("userId") Long id) {
+    @PostMapping(value = "/deleteUser")
+    public String deleteUser(@RequestParam("id") Long id, Model model) {
+        User deleteUser = userService.getUserById(id);
+        model.addAttribute("deleteUser", deleteUser);
         userService.delete(id);
         return "redirect:/admin";
     }
